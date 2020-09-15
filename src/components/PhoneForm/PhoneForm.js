@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-import style from '../PhoneForm/PhoneForm.module.css';
+import { CSSTransition } from 'react-transition-group';
+import './PhoneForm.css';
 
 const PhoneForm = ({
   submitForm,
@@ -9,14 +10,23 @@ const PhoneForm = ({
   number,
   contactNumber,
 }) => {
+  const [result, setResult] = useState(false);
+
+  useEffect(() => {
+    setResult(true);
+  }, []);
+
   return (
     <>
-      <h2 className={style['title']}>Phonebook</h2>
-      <form className={style['form']} onSubmit={submitForm}>
+      <CSSTransition in={result} classNames="title" timeout={500} mountOnEnter>
+        <h2 className="title">Phonebook</h2>
+      </CSSTransition>
+
+      <form className="form" onSubmit={submitForm}>
         <span>Name</span>
         <br></br>
         <input
-          className={style['input_name']}
+          className="input_name"
           type="text"
           name="name"
           value={name}
@@ -26,14 +36,14 @@ const PhoneForm = ({
         <span>Number</span>
         <br></br>
         <input
-          className={style['input_number']}
+          className="input_number"
           type="text"
           name="number"
           value={number}
           onChange={contactNumber}
         ></input>
         <br></br>
-        <button className={style['submit_btn']} type="submit">
+        <button className="submit_btn" type="submit">
           Add contact
         </button>
       </form>
