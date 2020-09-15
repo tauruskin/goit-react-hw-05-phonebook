@@ -1,0 +1,12 @@
+.search_info {
+  text-align: center;
+}
+.contact_list {
+  list-style: none;
+}
+.contact_item {
+  font-size: x-large;
+}
+.delete_btn {
+  margin-left: 20px;
+}
