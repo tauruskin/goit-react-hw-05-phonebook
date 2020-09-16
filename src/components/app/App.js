@@ -87,15 +87,16 @@ class App extends Component {
     const test = () => {
       this.toggle(true);
     };
+    const alertDelay = () => this.setState({ value: !value });
 
     return (
       <>
         <CSSTransition
           in={value}
           classNames="alert"
-          timeout={500}
-          mountOnEnter
+          timeout={2000}
           unmountOnExit
+          onEntered={alertDelay}
         >
           <button
             className="alert"

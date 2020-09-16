@@ -1,30 +1,38 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import style from '../findContact/FindContact.module.css';
+import { CSSTransition, TransitionGroup } from 'react-transition-group';
+import './FindContact.css';
 
 const FindContact = ({ filtered, filterValue, deleteContact }) => {
   return (
-    <div className={style['search_info']}>
-      <h3>Contacts</h3>
-      <span>Find contacts by name</span>
-      <br></br>
-      <input type="text" onChange={filterValue}></input>
-      <ul className={style['contact_list']}>
-        {filtered.map(item => (
-          <li className={style['contact_item']} key={item.d}>
-            {item.name} : {item.number}
-            <button
-              className={style['delete_btn']}
-              type="button"
-              id={item.id}
-              onClick={deleteContact}
-            >
-              Delete
-            </button>
-          </li>
-        ))}
-      </ul>
-    </div>
+    <>
+      {filtered.length > 1 && (
+        <div className="search-container">
+          <span>Find contacts by name</span>
+          <br></br>
+          <input type="text" onChange={filterValue}></input>
+        </div>
+      )}
+      <div className="search_info">
+        <TransitionGroup component="ul" className="contact_list">
+          {filtered.map(item => (
+            <CSSTransition key={item.id} classNames="list__item" timeout={800}>
+              <li className="contact_item" key={item.id}>
+                {item.name} : {item.number}
+                <button
+                  className="delete_btn"
+                  type="button"
+                  id={item.id}
+                  onClick={deleteContact}
+                >
+                  &#10008;
+                </button>
+              </li>
+            </CSSTransition>
+          ))}
+        </TransitionGroup>
+      </div>
+    </>
   );
 };
 

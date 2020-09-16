@@ -1,18 +1,24 @@
 .alert {
   position: absolute;
-  left: 43%;
-  top: 6%;
-  background-color: red;
-  width: 150px;
+  left: 46%;
+  top: 7%;
+  background-color: #ff335c;
+  width: 140px;
   color: white;
   border-radius: 4px;
 }
 
+.alert-enter {
+  opacity: 0;
+  transform: translateX(100%);
+}
 .alert-enter-active {
-  animation: task 500ms ease-in alternate-reverse;
+  opacity: 1;
+  transform: translateX(0);
+  transition: all 250ms ease-in;
 }
 
-@keyframes task {
+/* @keyframes task {
   0% {
     transform: translateX(0);
   }
@@ -24,13 +30,20 @@
     opacity: 0;
     transform: translateX(-200px);
   }
+} */
+
+.alert-exit {
+  opacity: 1;
+  transform: translateX(0);
 }
 
 .alert-exit-active {
-  animation: taskBack 500ms ease-in;
+  opacity: 0;
+  transform: translateX(100%);
+  transition: all 250ms ease-in;
 }
 
-@keyframes taskBack {
+/* @keyframes taskBack {
   0% {
     transform: translateX(0);
   }
@@ -42,4 +55,4 @@
     opacity: 0;
     transform: translateX(-200px);
   }
-}
+} */
