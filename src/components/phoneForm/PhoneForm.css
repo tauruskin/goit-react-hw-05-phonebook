@@ -1,50 +1,69 @@
-.title {
-  color: #027ca1;
-  font-family: sans-serif;
+.alert {
+  width: 300px;
+  height: max-content;
+  color: #ffffff;
+  font-size: 14px;
   font-weight: 800;
-  text-align: center;
-}
-.title-enter-active {
-  animation: task 800ms ease-in alternate-reverse;
-}
-
-@keyframes task {
-  0% {
-    transform: translateX(0);
-  }
-
-  30% {
-    opacity: 0.7;
-    transform: translateX(30px);
-  }
-
-  100% {
-    opacity: 0;
-    transform: translateX(-200px);
-  }
+  background-color: #f13b3b;
+  border-radius: 10px;
+  border: none;
+  padding: 10px;
+  margin-bottom: 10px;
 }
 
-.form {
-  text-align: center;
-  box-shadow: 2px 2px 7px -1px rgba(158, 158, 158, 0.71);
-  border-radius: 8px;
-  width: 200px;
-  margin: 0 auto 10px;
+.contacts_form {
+  width: 300px;
+  height: max-content;
+  border: none;
+  border-radius: 3px;
+  border: 1px solid black;
+  padding: 20px;
+  margin-bottom: 20px;
 }
 
 .input_name {
-  margin: 10px;
+  font-weight: 700;
 }
 
-.input_number {
-  margin: 10px;
+.input_form,
+.submitBtn {
+  width: 260px;
+  height: 30px;
+  border-radius: 5px;
 }
 
-.submit_btn {
-  min-width: 140px;
-  border-radius: 4px;
-  outline: none;
-  margin-bottom: 10px;
-  background-color: #027ca1;
-  color: white;
+.input_form {
+  border: 1px solid #808080;
+  margin: 10px 0 30px;
+  padding: 10px;
+}
+
+.submitBtn {
+  color: #ffffff;
+  font-size: 16px;
+  font-weight: 500;
+  border: none;
+  background-color: #016f91;
+}
+
+.alert-enter {
+  opacity: 0;
+  transform: translateX(100%);
+}
+
+.alert-enter-active {
+  opacity: 1;
+  transform: translateX(0);
+  transition: all 250ms ease-in;
+}
+
+.alert-exit {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.alert-exit-active {
+  opacity: 0;
+  transform: translateX(100%);
+  transition: all 250ms ease-in;
 }

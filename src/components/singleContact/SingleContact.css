@@ -1,0 +1,25 @@
+.contact {
+  display: flex;
+  justify-content: space-between;
+  width: 300px;
+  height: auto;
+  border: none;
+  border-radius: 3px;
+  box-shadow: 2px 2px 7px -1px rgba(158, 158, 158, 0.71);
+  letter-spacing: 0.6px;
+  line-height: 26px;
+  padding: 10px;
+  margin-bottom: 10px;
+}
+
+.deleteButton {
+  width: 25px;
+  height: 25px;
+  color: #ffffff;
+  font-size: 18px;
+  font-weight: 800;
+  border: none;
+  border-radius: 5px;
+  background-color: #ff335c;
+  cursor: pointer;
+}

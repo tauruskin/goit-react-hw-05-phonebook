@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
-import { v4 as uuidv4 } from 'uuid';
-import PhoneForm from '../phoneForm/PhoneForm';
-import FindContact from '../findContact/FindContact';
 import { CSSTransition } from 'react-transition-group';
+import PhoneForm from '../phoneForm/PhoneForm';
+import Filter from '../filter/Filter';
+import ContactList from '../contactList/ContactList';
 import './App.css';
 
 class App extends Component {
@@ -10,113 +10,91 @@ class App extends Component {
     contacts: [],
     filter: '',
     name: '',
-    number: '',
   };
-  contactName = e => {
+
+  componentDidMount() {
+    this.setState(state => ({
+      animation: !state.animation,
+    }));
+
+    const savedContacts = localStorage.getItem('contacts');
+    if (savedContacts) {
+      this.setState({
+        contacts: JSON.parse(savedContacts),
+      });
+    }
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    const { contacts } = this.state;
+    if (prevState.contacts !== contacts) {
+      localStorage.setItem('contacts', JSON.stringify(contacts));
+    }
+  }
+
+  handleFilter = ({ target }) => {
+    const { value, name } = target;
     this.setState({
-      name: e.target.value,
-    });
-  };
-  contactNumber = e => {
-    this.setState({
-      number: e.target.value,
+      [name]: value,
     });
   };
 
-  filterValue = e => {
-    this.setState({ filter: e.target.value });
-  };
-
-  getFilteredContacts = () => {
+  getFilteredContact = () => {
     const { contacts, filter } = this.state;
-    return contacts.filter(item =>
-      item.name.toLowerCase().includes(filter.toLowerCase()),
+    return contacts.filter(contact =>
+      contact.name.toLowerCase().includes(filter.toLowerCase()),
     );
   };
 
-  deleteContact = e => {
-    const id = e.target.id;
+  addContact = contactObj => {
+    this.setState(prev => ({
+      contacts: [...prev.contacts, contactObj],
+    }));
+  };
+
+  deleteContact = ({ target }) => {
+    const { id } = target;
     this.setState(prev => ({
       contacts: prev.contacts.filter(contact => contact.id !== id),
     }));
   };
 
-  submitForm = e => {
-    e.preventDefault();
-    const { name, number, contacts, value } = this.state;
-    if (contacts.find(item => item.name === this.state.name)) {
-      this.toggle(value);
-      return;
-    }
-
-    const object = {
-      name: name,
-      number: number,
-      id: uuidv4(),
-    };
-    this.setState(prev => ({
-      contacts: [...prev.contacts, object],
-      filter: '',
-      name: '',
-      number: '',
-    }));
-  };
-
-  componentDidMount() {
-    const writedContacts = localStorage.getItem('contacts');
-    if (writedContacts) {
-      this.setState({
-        contacts: JSON.parse(writedContacts),
-      });
-    }
-  }
-
-  componentDidUpdate(prevProps, PrevState) {
-    if (PrevState.contacts !== this.state.contacts) {
-      localStorage.setItem('contacts', JSON.stringify(this.state.contacts));
-    }
-  }
-
-  toggle = status => {
-    this.setState({ value: !status });
-  };
-
   render() {
-    const filtered = this.getFilteredContacts();
-    const { name, number, value } = this.state;
-    const test = () => {
-      this.toggle(true);
-    };
-    const alertDelay = () => this.setState({ value: !value });
-
     return (
-      <>
+      <div className="container">
         <CSSTransition
-          in={value}
-          classNames="alert"
-          timeout={2000}
+          in={true}
+          appear={true}
+          classNames="title-slideIn"
+          timeout={500}
           unmountOnExit
-          onEntered={alertDelay}
         >
-          <button
-            className="alert"
-            onClick={test}
-          >{`${name} already exist`}</button>
+          <h1 className="app_title">Phonebook</h1>
         </CSSTransition>
 
-        <PhoneForm
-          submitForm={this.submitForm}
-          name={name}
-          contactName={this.contactName}
-          number={number}
-          contactNumber={this.contactNumber}
-        />
-        <FindContact
-          filtered={filtered}
-          filterValue={this.filterValue}
+        <PhoneForm state={this.state} addContact={this.addContact} />
+
+        {this.state.contacts.length === 0 && (
+          <>
+            <h2 className="contact_title">Contacts</h2>
+            <p>Contacts list is empty. Please, create new cotnact!</p>
+          </>
+        )}
+
+        <CSSTransition
+          in={this.state.contacts.length > 1}
+          classNames="filter_animation"
+          timeout={250}
+          unmountOnExit
+        >
+          <Filter state={this.state} handleFilter={this.handleFilter} />
+        </CSSTransition>
+
+        <ContactList
+          filteredContacts={this.getFilteredContact()}
           deleteContact={this.deleteContact}
         />
-      </>
+      </div>
     );
   }
 }
